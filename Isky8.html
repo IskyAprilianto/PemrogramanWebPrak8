@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik Penjualan Bulanan</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* CSS untuk body agar menjadi flex container dan menengahkan tombol */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* agar konten tetap di tengah ketika konten kurang */
+            margin: 0; /* menghapus margin default */
+            background-image: url("jual.jpeg"); /* Memasukkan gambar latar belakang */
+            background-size: cover; /* Menyesuaikan ukuran gambar dengan ukuran layar */
+            background-position: center; /* Memposisikan gambar ke tengah */
+    /* tambahan gaya lainnya */
+        }
+
+        /* Gaya tombol seperti sebelumnya */
+        button {
+            padding: 1.3em 3em;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #000;
+            background-color: #fff;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+            margin-bottom: 20px; /* Jarak antara tombol dan grafik */
+        }
+
+        button:hover {
+            background-color: #23c483;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        /* CSS untuk container grafik */
+        #grafikPenjualan {
+            display: none; /* Grafik awalnya disembunyikan */
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* CSS untuk judul H2 */
+        h2 {
+            font-size: 54px; /* Ubah ukuran judul H2 */
+        }
+    </style>
+</head>
+<body>
+    <h2>Grafik Penjualan</h2>
+    <button id="tampilkanGrafik">Tampilkan Grafik</button>
+    <canvas id="grafikPenjualan" width="300" height="100"></canvas>
+    <script>
+        const dataPenjualan = [ 1000, 200, 1100, 3000, 1250, 4000, 1350, 3000,100, 1000, 5000, 4000];
+        let chart;
+
+        document.getElementById('tampilkanGrafik').addEventListener('click', function() {
+            const canvas = document.getElementById('grafikPenjualan');
+            const ctx = canvas.getContext('2d');
+
+            if (canvas.style.display === 'none') {
+                canvas.style.display = 'block';
+                this.textContent = 'Sembunyikan Grafik';
+                if (!chart) {
+                    chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                            datasets: [{
+                                label: 'Penjualan Baju',
+                                data: dataPenjualan,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: true,
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Bulan'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Jumlah Penjualan baju'
+                                    },
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                canvas.style.display = 'none';
+                this.textContent = 'Tampilkan Grafik';
+            }
+        });
+    </script>
+</body>
+</html>
